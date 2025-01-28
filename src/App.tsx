@@ -1,13 +1,8 @@
 import { useEffect, useState } from 'react';
 import Search from './components/Search';
 import Spinner from './components/Spinner';
-
-type Movie = {
-  id: string;
-  title: string;
-  src: string;
-};
-
+import MovieCard from './components/MovieCard';
+import { Movie } from './types';
 
 const API_BASE_URL = 'https://api.themoviedb.org/3';
 const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
@@ -79,10 +74,7 @@ const App = () => {
           ) : (
             <ul>
               {movieList.map((movie) => (
-                <li className='text-white' key={movie.id}>
-                  {/* <img src={movie.src} alt={movie.title} /> */}
-                  <h3>{movie.title}</h3>
-                </li>
+                <MovieCard key={movie.id} movie={movie} />
               ))}
             </ul>
           )}
@@ -91,20 +83,6 @@ const App = () => {
       </div>
     </main>
 
-
-    // <div className="bg-gray-800 min-h-screen text-white flex justify-center items-center">
-    //   <div className="p-4 w-full max-w-screen-lg">
-    //     <header className="p-4">
-    //       <h1 className="text-3xl font-bold">React App</h1>
-    //     </header>
-
-    //     <main className="p-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-    //       {movies.map((movie: Movie) => (
-    //         <Card key={movie.id} src={movie.src} title={movie.title} />
-    //       ))}
-    //     </main>
-    //   </div>
-    // </div>
   )
 }
 
