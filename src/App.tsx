@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import Search from './components/Search';
+import Spinner from './components/Spinner';
 
 type Movie = {
   id: string;
@@ -7,30 +8,6 @@ type Movie = {
   src: string;
 };
 
-const generateKey = () => {
-  return `card_${Math.random().toString(36).substr(2, 9)}`;
-}
-
-const generateImageUrl = () => {
-  return `https://picsum.photos/150?random=${Math.random()}`;
-}
-
-const initMovies = [
-  { title: "The Great Adventure" },
-  { title: "Mystery of the Lost City" },
-  { title: "Journey to the Unknown" },
-  { title: "The Last Hero" },
-  { title: "Rise of the Guardians" },
-  { title: "The Hidden Treasure" },
-  { title: "Escape from Reality" },
-  { title: "The Final Countdown" },
-  { title: "Quest for Glory" },
-  { title: "The Secret Path" }
-].map(movie => ({
-  ...movie,
-  id: generateKey(),
-  src: generateImageUrl()
-}));
 
 const API_BASE_URL = 'https://api.themoviedb.org/3';
 const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
@@ -93,12 +70,24 @@ const App = () => {
         </header>
 
         <section className='all-movies'>
-          <h2>All Movies</h2>
-          {errorMessage && <p className='text-red-500'>{errorMessage}</p>}
+          <h2 className='mt-[40px]'>All Movies</h2>
+
+          {isLoading ? (
+            <Spinner />
+          ) : errorMessage ? (
+            <p className='text-red-500'>{errorMessage}</p>
+          ) : (
+            <ul>
+              {movieList.map((movie) => (
+                <li className='text-white' key={movie.id}>
+                  {/* <img src={movie.src} alt={movie.title} /> */}
+                  <h3>{movie.title}</h3>
+                </li>
+              ))}
+            </ul>
+          )}
 
         </section>
-
-
       </div>
     </main>
 
