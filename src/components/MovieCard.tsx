@@ -1,23 +1,6 @@
-import { useState } from 'react';
-
-type Movie = {
-    id: string;
-    title: string;
-    vote_average: number;
-    poster_path: string;
-    release_date: string;
-    original_language: string;
-};
+import { Movie } from '../types';
 
 const MovieCard = ({ movie: { title, vote_average, poster_path, release_date, original_language } }: { movie: Movie }) => {
-
-    const [likes, setLikes] = useState(0);
-    const [isLiked, setIsLiked] = useState(false);
-
-    const handleLike = () => {
-        setIsLiked(!isLiked);
-        setLikes(isLiked ? likes - 1 : likes + 1);
-    };
 
     return (
         <li className='movie-card'>
