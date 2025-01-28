@@ -6,3 +6,11 @@ export type Movie = {
     release_date: string;
     original_language: string;
 };
+
+export type TrendingMovie = {
+    $id: string;
+    searchTerm: string;
+    count: number;
+    poster_url: string;
+    movie_id: string;
+};

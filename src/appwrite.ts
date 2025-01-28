@@ -4,7 +4,7 @@ const DATAbASE_ID = import.meta.env.VITE_APPWRITE_DATABASE_ID;
 const COLLECTION_ID = import.meta.env.VITE_APPWRITE_COLLECTION_ID;
 
 import { Client, Databases, ID, Query } from 'appwrite';
-import { Movie } from './types';
+import { Movie, TrendingMovie, } from './types';
 const client = new Client()
     .setEndpoint('https://cloud.appwrite.io/v1')
     .setProject(PROJECT_ID);
@@ -40,3 +40,22 @@ export const updateSearchCount = async (searchTerm: string, movie: Movie) => {
         console.error(error);
     }
 };
+
+export const getTrendingMovies = async (): Promise<TrendingMovie[]> => {
+    try {
+        const response = await database.listDocuments(DATAbASE_ID, COLLECTION_ID, [
+            Query.limit(5),
+            Query.orderDesc('count')
+        ]);
+
+        return response.documents.map((doc) => ({
+            searchTerm: doc.searchTerm,
+            count: doc.count,
+            poster_url: doc.poster_url,
+            movie_id: doc.movie_id
+        })) as TrendingMovie[];
+    } catch (error) {
+        console.error(error);
+        return [];
+    }
+}
